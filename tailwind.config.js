@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      'sans': ['Lato', 'Sans-serif']
+    }
   },
   variants: {},
   plugins: [],
