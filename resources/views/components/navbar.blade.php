@@ -14,6 +14,13 @@
                         <a class="border-b border-b-2 border-transparent hover:border-white mx-2" href="/">Contact
                             US</a>
                     </li>
+                    <li>
+                        <form method="POST" action="{{route('logout')}}">
+                            @csrf
+                            <button class="border-b border-b-2 border-transparent hover:border-white mx-2"
+                                href="/">Logout</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
