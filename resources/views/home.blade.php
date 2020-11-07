@@ -171,7 +171,7 @@
                                 Upload a file
                             </button>
                         </p>
-                        <input type="file" id="excel" class="hidden" accept=".xlsx, .csv, .xls">
+                        <input type="file" name="excel" id="excel" class="hidden" accept=".xlsx, .csv, .xls">
                     </div>
                 </div>
                 <div class="mt-6">
