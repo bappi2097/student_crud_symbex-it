@@ -27,3 +27,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('store', [App\Http\Controllers\StudentController::class, 'store'])->name('store');
+Route::put('update/{student}', [App\Http\Controllers\StudentController::class, 'update'])->name('update');
+Route::delete('delete/{student}', [App\Http\Controllers\StudentController::class, 'destroy'])->name('delete');
+Route::post('store-bulk', [App\Http\Controllers\StudentController::class, 'storeBulk'])->name('store-bulk');

@@ -3,7 +3,7 @@
 @section('content')
 <div class="lg:flex sm:p-5">
     <div class="w-full lg:w-1/2 p-5 lg:m-10 lg:p-10 lg:border-r-2 lg:border-gray-300 bg-white">
-        <form method="POST" action="/">
+        <form method="POST" action="{{route('store')}}" enctype="multipart/form-data">
             @csrf
             <div class="lg:flex lg:justify-between">
                 <div class="w-full lg:w-1/2 mb-6 mr-2">
@@ -66,9 +66,9 @@
 
                 <select class="border border-gray-400 p-2 w-full" name="programme" id="programme" required>
                     <option selected>--- Choose Programme ---</option>
-                    <option value="swe">B.Sc. In SWE</option>
-                    <option value="cse">B.Sc. in CSE</option>
-                    <option value="eee">B.Sc. in EEE</option>
+                    <option value="B.Sc. In SWE">B.Sc. In SWE</option>
+                    <option value="B.Sc. in CSE">B.Sc. in CSE</option>
+                    <option value="B.Sc. in EEE">B.Sc. in EEE</option>
                 </select>
                 @error('programme')
                 <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -101,7 +101,7 @@
             <div class="lg:flex">
                 <div class="w-full lg:w-1/2 mb-6 mr-2">
                     <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="blood_group">
-                        Blood_group
+                        Blood Group
                     </label>
 
                     <select class="border border-gray-400 p-2 w-full" name="blood_group" id="blood_group" required>
@@ -151,7 +151,7 @@
         </form>
     </div>
     <div class="w-full lg:w-1/2 p-5 lg:m-10 lg:p-10 bg-white mt-2">
-        <form method="POST" action="/">
+        <form method="POST" action="{{route('store-bulk')}}" enctype="multipart/form-data">
             @csrf
             <div class="mx-auto p-10 items-center align-middle">
                 <label class="block text-sm font-bold text-gray-700">
@@ -171,7 +171,7 @@
                                 Upload a file
                             </button>
                         </p>
-                        <input type="file" id="excel" class="hidden">
+                        <input type="file" id="excel" class="hidden" accept=".xlsx, .csv, .xls">
                     </div>
                 </div>
                 <div class="mt-6">
@@ -231,52 +231,67 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @for ($i = 0; $i < 10; $i++) <tr>
+                            @foreach ($students as $student)
+                            <tr>
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
                                             <img class="h-10 w-10 rounded-full"
-                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-                                                alt="">
+                                                src="{{asset('students/images/'.$student->image)}}" alt="">
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm leading-5 font-medium text-gray-900">
-                                                John Doe
+                                                {{$student->first_name . " " .$student->last_name}}
                                             </div>
                                             <div class="text-sm leading-5 text-gray-500">
-                                                john.doe@email.com
+                                                {{$student->email}}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
-                                    <div class="text-sm leading-5 text-gray-900">B.Sc. in SWE</div>
-                                    <div class="text-sm leading-5 text-gray-500">Batch-23, Sec-B</div>
+                                    <div class="text-sm leading-5 text-gray-900">{{$student->programme}}</div>
+                                    <div class="text-sm leading-5 text-gray-500">Batch-{{$student->batch}},
+                                        Sec-{{$student->section}}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        +8801726257333
+                                        {{$student->mobile_no}}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap">
                                     <span
                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        O+
+                                        {{$student->blood_group}}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                    34/4, Shyamoli, Dhaka-1207
+                                    {{$student->current_address}}
                                 </td>
-                                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-center">
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900 mx-2">View</a>
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900 mx-2">Edit</a>
+                                <td
+                                    class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-center flex justify-center">
+                                    <a class="cursor-pointer text-indigo-600 hover:text-indigo-900 mx-2"
+                                        onclick="document.querySelector('#modal-view-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-view-{{$student->id}}').classList.add('fixed');">View</a>
+                                    <a class="text-indigo-600 hover:text-indigo-900 mx-2 cursor-pointer"
+                                        onclick="document.querySelector('#modal-register-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-register-{{$student->id}}').classList.add('fixed');">Edit</a>
                                     <a href="#" class="text-indigo-600 hover:text-indigo-900 mx-2">Print</a>
+                                    <form method="POST" action="{{route('delete', $student->id)}}"
+                                        id="delete-{{$student->id}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            onclick="if(confirm('Do you want to delete?'))document.getElementById('delete-{{$student->id}}').submit()"
+                                            class="cursor-pointer text-red-600 hover:text-red-900 mx-2">Delete</button>
+                                    </form>
                                 </td>
-                                </tr>
-                                @endfor
+                            </tr>
+                            @include('view-student')
+                            @include('edit-student')
+                            @endforeach
                         </tbody>
                     </table>
+                    {{$students->links()}}
                 </div>
             </div>
         </div>
