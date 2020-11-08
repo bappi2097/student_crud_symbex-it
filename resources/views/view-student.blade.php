@@ -35,8 +35,8 @@
                                 <span class="text-md">Section: {{$student->section}}</span><br>
                             </div>
                             <div class="mx-4">
-                                <img class="mx-auto mb-2" style="height: 80px;" src="{{asset('images/admin-2.jpg')}}"
-                                    alt="" width="75">
+                                <img class="mx-auto mb-2" style="height: 80px;"
+                                    src="{{asset('students/images/' . $student->image)}}" alt="" width="75">
                                 <div class="flex items-center">
                                     <span>
                                         <svg class="w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"

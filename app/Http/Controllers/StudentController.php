@@ -79,9 +79,60 @@ class StudentController extends Controller
         $reader = new Xlsx();
         $spreadsheet = $reader->load($request->file('excel'));
         $rows = array();
-        $i = 0;
+        $images = $this->getImages($spreadsheet);
+        $worksheet = $spreadsheet->getActiveSheet();
+        foreach ($worksheet->getRowIterator() as $index => $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE);
+            $row = [];
+            foreach ($cellIterator as $cell) {
+                $row[] = $cell->getValue();
+                // $cell->getStyle()->getFill()->getStartColor()->getRGB(); // color picker
+            }
+            if (empty($row[1])) {
+                break;
+            }
+            $row["index"] = $index;
+            $rows[] = $row;
+        }
+        foreach ($rows as $index => $row) {
+            foreach ($images as $image) {
+                preg_match_all('!\d+!', $image["cordinate"], $matches);
+                if ($row["index"] == (int)implode("", $matches[0])) {
+                    $rows[$index] = array_merge($row, $image);
+                    break;
+                }
+            }
+        }
+        array_splice($rows, 0, 1);
+        foreach ($rows as $row) {
+            if (array_key_exists("image", $row)) {
+                $name = uniqid(11) . '.' . $row["extension"];
+                file_put_contents("students/images/" . $name, $row["image"]);
+            }
+
+            $data = [
+                "first_name" => $row[0],
+                "last_name" => $row[1],
+                "image" => array_key_exists("image", $row) ? $name : null,
+                "email" => $row[2],
+                "programme" => $row[3],
+                "batch" => $row[4],
+                "section" => $row[5],
+                "blood_group" => $row[6],
+                "mobile_no" => $row[7],
+                "current_address" => $row[8],
+            ];
+            Student::insert($data);
+        }
+        return back();
+    }
+
+    public function getImages($spreadsheet)
+    {
+        $images = [];
+        // $i = 0;
         foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
-            dd($drawing->getCoordinates());
             if ($drawing instanceof \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing) {
                 ob_start();
                 call_user_func(
@@ -110,26 +161,15 @@ class StudentController extends Controller
                 fclose($zipReader);
                 $extension = $drawing->getExtension();
             }
-            $myFileName = '00_Image_' . ++$i . '.' . $extension;
+            $images[] = [
+                "extension" => $extension,
+                "image" => $imageContents,
+                "cordinate" => $drawing->getCoordinates()
+            ];
+            // $myFileName = '00_Image_' . ++$i . '.' . $extension;
             // file_put_contents($myFileName, $imageContents);
         }
-
-        // dd($spreadsheet->getActiveSheet()->getDrawingCollection());
-        $worksheet = $spreadsheet->getActiveSheet();
-        foreach ($worksheet->getRowIterator() as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(FALSE);
-            $row = [];
-            foreach ($cellIterator as $cell) {
-                $row[] = $cell->getValue();
-
-                // $cell->getStyle()->getFill()->getStartColor()->getRGB(); // color picker
-            }
-            $rows[] = $row;
-        }
-        dd($rows);
-        dd($request->all());
-        return back();
+        return $images;
     }
 
     /**
@@ -140,7 +180,6 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        //
     }
 
     /**
@@ -166,7 +205,7 @@ class StudentController extends Controller
         $this->validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:students'],
+            'email' => ['required', 'email', 'unique:students,email,' . $student->id],
             'programme' => ['required', 'string', 'max:255'],
             'batch' => ['required', 'numeric'],
             'section' => ['required', 'string'],

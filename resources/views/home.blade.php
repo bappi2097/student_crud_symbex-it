@@ -291,7 +291,9 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{$students->links()}}
+                    <div class="p-2">
+                        {{$students->links()}}
+                    </div>
                 </div>
             </div>
         </div>
