@@ -188,7 +188,7 @@
 <div class="p-2 lg:p-8 bg-white lg:mx-10 mb-6">
     <div class="grid">
         <div class="mb-6">
-            <a href="{{route("print-id-bulk")}}"
+            <a href="{{route("print-id-bulk")}}" target="_blank"
                 class="text-white rounded py-2 px-5 float-right flex justify-between --print-button">
                 Print All
                 <span class="w-6 ml-2">
@@ -276,10 +276,8 @@
                                         onclick="document.querySelector('#modal-view-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-view-{{$student->id}}').classList.add('fixed');">View</a>
                                     <a class="text-indigo-600 hover:text-indigo-900 mx-2 cursor-pointer"
                                         onclick="document.querySelector('#modal-register-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-register-{{$student->id}}').classList.add('fixed');">Edit</a>
-                                    <form method="GET" action="{{route('print-id', $student->id)}}">
-                                        <button type="submit"
-                                            class="text-indigo-600 hover:text-indigo-900 mx-2">Print</button>
-                                    </form>
+                                    <a href="{{route('print-id', $student->id)}}" target="_blank"
+                                        class="text-indigo-600 hover:text-indigo-900 mx-2">Print</a>
                                     <form method="POST" action="{{route('delete', $student->id)}}"
                                         id="delete-{{$student->id}}">
                                         @csrf

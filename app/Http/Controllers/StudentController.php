@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use Exception;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
@@ -68,9 +69,9 @@ class StudentController extends Controller
         ];
 
         if (Student::insert($data)) {
-            return redirect()->back()->with('success', 'Student added successfully.');
+            return back()->with('success', 'Student added successfully.');
         } else {
-            return redirect()->back()->with('error', 'Something went Wrong!');
+            return back()->with('error', 'Something went Wrong!');
         }
     }
 
@@ -104,6 +105,7 @@ class StudentController extends Controller
             }
         }
         array_splice($rows, 0, 1);
+        $i = 0;
         foreach ($rows as $row) {
             if (array_key_exists("image", $row)) {
                 $name = uniqid(11) . '.' . $row["extension"];
@@ -122,9 +124,17 @@ class StudentController extends Controller
                 "mobile_no" => $row[7],
                 "current_address" => $row[8],
             ];
-            Student::insert($data);
+            try {
+                Student::insert($data);
+            } catch (Exception $e) {
+                $i++;
+                continue;
+            }
         }
-        return back();
+        if ($i > 0) {
+            return back()->with('warning', 'Some student not added. Duplicate Data');
+        }
+        return back()->with('success', 'Student added successfully.');
     }
 
     public function getImages($spreadsheet)
@@ -230,9 +240,9 @@ class StudentController extends Controller
         ];
 
         if ($student->update($data)) {
-            return redirect()->back()->with('success', 'Student updated successfully.');
+            return back()->with('success', 'Student updated successfully.');
         } else {
-            return redirect()->back()->with('error', 'Something went Wrong!');
+            return back()->with('error', 'Something went Wrong!');
         }
     }
 
@@ -245,9 +255,9 @@ class StudentController extends Controller
     public function destroy(Student $student)
     {
         if ($student->delete()) {
-            return redirect()->back()->with('success', 'Student deleted successfully.');
+            return back()->with('success', 'Student deleted successfully.');
         } else {
-            return redirect()->back()->with('error', 'Something went Wrong!');
+            return back()->with('error', 'Something went Wrong!');
         }
     }
 }

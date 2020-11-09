@@ -15,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-auth()->login(User::find(1));
-
-// auth()->logout();
-
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('home');
