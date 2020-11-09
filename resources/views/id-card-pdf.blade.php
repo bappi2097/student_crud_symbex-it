@@ -15,7 +15,6 @@
         .main {
             width: 346px;
             height: 214px;
-            /* background: black; */
             margin: auto;
             margin-bottom: 30px;
             position: relative;
@@ -51,7 +50,6 @@
 
         .info {
             position: absolute;
-            /* background: black; */
             padding: 0 12px;
             height: 120px;
             margin-top: 70px;
@@ -67,7 +65,6 @@
         }
 
         .back-div {
-            /* background: black; */
             padding: 10px;
             position: absolute;
             height: 194px;
@@ -80,7 +77,6 @@
 
 <body>
     @foreach ($students as $student)
-    {{-- {{dd($student)}} --}}
     <div>
         <div class="main">
             <img class="background-image" src="{{public_path('images/Front.jpg')}}" alt="">

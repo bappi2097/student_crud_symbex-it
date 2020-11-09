@@ -174,7 +174,10 @@
                         <input type="file" name="excel" id="excel" class="hidden" accept=".xlsx, .csv, .xls">
                     </div>
                 </div>
-                <div class="mt-6">
+                @error('excel')
+                <p class="text-red-500 text-xs mt-2" style="margin-bottom: -26px;">{{ $message }}</p>
+                @enderror
+                <div class="mt-8">
                     <button type="submit" class="bg-blue-400 text-white rounded py-2 px-4 hover:bg-blue-500">
                         Submit
                     </button>

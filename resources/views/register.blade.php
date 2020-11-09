@@ -44,7 +44,7 @@
                     </div>
                     <div class="mb-6">
                         <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="password_confirmation">
-                            Password_Confirmation
+                            Password Confirmation
                         </label>
 
                         <input class="border border-gray-400 p-2 w-full" type="password" name="password_confirmation"
@@ -63,7 +63,7 @@
                             <button
                                 onclick="document.querySelector('#modal-register').classList.remove('fixed');document.querySelector('#modal-register').classList.add('hidden');"
                                 type="button" class="bg-red-400 text-white rounded py-2 px-4 hover:bg-red-500">
-                                Cancel
+                                Close
                             </button>
                         </div>
                     </div>

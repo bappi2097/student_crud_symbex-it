@@ -77,6 +77,9 @@ class StudentController extends Controller
 
     public function storeBulk(Request $request)
     {
+        $this->validate($request, [
+            'excel' => ['required', 'file']
+        ]);
         $reader = new Xlsx();
         $spreadsheet = $reader->load($request->file('excel'));
         $rows = array();

@@ -41,7 +41,8 @@
                     </div>
                 </form>
                 <div class="text-center">
-                    <a href="/" class="text-blue-500 hover:underline cursor-pointer">Forgotten Password ?</a>
+                    <a href="{{ route('password.request') }}"
+                        class="text-blue-500 hover:underline cursor-pointer">Forgotten Password ?</a>
                 </div>
                 <hr class="my-3">
 
