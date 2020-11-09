@@ -18,7 +18,7 @@
                 </span>
             </div>
             <div class="bg-white p-10">
-                <div class="border border-1 border-gray-400 mx-auto bg-blue-500 rounded-md relative"
+                <div class="border border-1 border-gray-300 mx-auto rounded-md relative"
                     style="width: 346px; height: 216px;">
                     <img class="rounded-md absolute" style="height: 214px;" src="{{asset('images/Front.jpg')}}" alt=""
                         width="346">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-5 border border-1 border-gray-400 mx-auto bg-blue-500 rounded-md relative"
+                <div class="mt-5 border border-1 border-gray-300 mx-auto rounded-md relative"
                     style="width: 346px; height: 216px;">
                     <img class="rounded-md absolute" style="height: 214px;" src="{{asset('images/Back.jpg')}}" alt=""
                         width="346">

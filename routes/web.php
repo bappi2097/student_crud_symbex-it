@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// auth()->login(User::find(1));
+auth()->login(User::find(1));
+
 // auth()->logout();
 
 Route::get('/', function () {
@@ -25,8 +27,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('print-id/{student}', [App\Http\Controllers\PrintController::class, 'printId'])->name('print-id');
+Route::get('print-id-bulk', [App\Http\Controllers\PrintController::class, 'printIdBulk'])->name('print-id-bulk');
 Route::post('store', [App\Http\Controllers\StudentController::class, 'store'])->name('store');
 Route::put('update/{student}', [App\Http\Controllers\StudentController::class, 'update'])->name('update');
 Route::delete('delete/{student}', [App\Http\Controllers\StudentController::class, 'destroy'])->name('delete');

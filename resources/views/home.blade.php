@@ -188,7 +188,8 @@
 <div class="p-2 lg:p-8 bg-white lg:mx-10 mb-6">
     <div class="grid">
         <div class="mb-6">
-            <button class="text-white rounded py-2 px-5 float-right flex justify-between --print-button">
+            <a href="{{route("print-id-bulk")}}"
+                class="text-white rounded py-2 px-5 float-right flex justify-between --print-button">
                 Print All
                 <span class="w-6 ml-2">
                     <svg class="w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -197,7 +198,7 @@
                             d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                     </svg>
                 </span>
-            </button>
+            </a>
         </div>
     </div>
     <div class="flex flex-col">
@@ -275,7 +276,10 @@
                                         onclick="document.querySelector('#modal-view-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-view-{{$student->id}}').classList.add('fixed');">View</a>
                                     <a class="text-indigo-600 hover:text-indigo-900 mx-2 cursor-pointer"
                                         onclick="document.querySelector('#modal-register-{{$student->id}}').classList.remove('hidden');document.querySelector('#modal-register-{{$student->id}}').classList.add('fixed');">Edit</a>
-                                    <a href="#" class="text-indigo-600 hover:text-indigo-900 mx-2">Print</a>
+                                    <form method="GET" action="{{route('print-id', $student->id)}}">
+                                        <button type="submit"
+                                            class="text-indigo-600 hover:text-indigo-900 mx-2">Print</button>
+                                    </form>
                                     <form method="POST" action="{{route('delete', $student->id)}}"
                                         id="delete-{{$student->id}}">
                                         @csrf

@@ -87,7 +87,6 @@ class StudentController extends Controller
             $row = [];
             foreach ($cellIterator as $cell) {
                 $row[] = $cell->getValue();
-                // $cell->getStyle()->getFill()->getStartColor()->getRGB(); // color picker
             }
             if (empty($row[1])) {
                 break;
@@ -166,8 +165,6 @@ class StudentController extends Controller
                 "image" => $imageContents,
                 "cordinate" => $drawing->getCoordinates()
             ];
-            // $myFileName = '00_Image_' . ++$i . '.' . $extension;
-            // file_put_contents($myFileName, $imageContents);
         }
         return $images;
     }

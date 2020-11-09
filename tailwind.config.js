@@ -7,7 +7,7 @@ module.exports = {
     './src/**/*.html',
     './src/**/*.vue',
     './src/**/*.jsx',
-    './src/**/*.blade.php',
+    './**/*.blade.php',
   ],
   theme: {
     extend: {},
